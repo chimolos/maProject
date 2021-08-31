@@ -1,8 +1,8 @@
 package com.second.maproject.users.requests;
 
 import java.util.Set;
-
 public class ProfileRequest {
+
     private Set<String> category;
 
     public Set<String> getCategory() {

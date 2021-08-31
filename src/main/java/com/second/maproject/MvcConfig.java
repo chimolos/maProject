@@ -2,14 +2,13 @@ package com.second.maproject;
 
 import jdk.jfr.Category;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Configuration
+@EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
 
     @Override
@@ -24,4 +23,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/postUploads/**").addResourceLocations("file:/" + postUploadPath + "/");
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+    }
 }
