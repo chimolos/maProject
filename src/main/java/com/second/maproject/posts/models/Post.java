@@ -23,6 +23,8 @@ public class Post extends BaseIdModel {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @Transient
+    private String imagePath;
 
     private String image;
 
@@ -44,12 +46,12 @@ public class Post extends BaseIdModel {
 ////    @JoinColumn(name = "comment_id")
 //    private List<PostComment> comments = new ArrayList();
 
-    @Transient
+
     public String getImagePath() {
-
-        if (image == null || id == null) return null;
-
-        return "/postUploads/" + user.getId() + "/" + image;
+        return imagePath;
     }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

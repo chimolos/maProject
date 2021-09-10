@@ -20,8 +20,10 @@ public class PostController {
 
     @PostMapping("/user/post/create")
     public String createPost(PostRequest request, @RequestParam("image") MultipartFile file) throws IOException {
-        postService.createPost(request, file);
-        return "Post created successfully";
+
+        String url = postService.createPost(request, file);
+
+        return "Post created successfully: File path: " + url;
     }
 
     @GetMapping("/all/posts")

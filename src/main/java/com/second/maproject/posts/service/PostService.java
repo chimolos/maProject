@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface PostService {
-    void createPost(PostRequest request, MultipartFile file) throws IOException;
+    String createPost(PostRequest request, MultipartFile file) throws IOException;
     List<Post> getAllPost();
     Post getPostById(Long id);
     List<Post> getPostsPerCategory(Long catId);

@@ -1,6 +1,7 @@
 package com.second.maproject.posts.service;
 
-import com.second.maproject.FileUploadHelper;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.second.maproject.category.Category;
 import com.second.maproject.category.CategoryRepository;
 import com.second.maproject.category.CategoryService;
@@ -17,19 +18,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService{
+
+    @Autowired
+    Cloudinary cloudinaryConfig;
 
     @Autowired
     PostRepository postsRepo;
@@ -47,7 +45,7 @@ public class PostServiceImpl implements PostService{
     CategoryService categoryService;
 
     @Override
-    public void createPost(@RequestBody PostRequest request, MultipartFile file) throws IOException {
+    public String createPost(@RequestBody PostRequest request, MultipartFile file) throws IOException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         User user = userRepo.findByUsername(username);
@@ -84,28 +82,39 @@ public class PostServiceImpl implements PostService{
 
             Post savedPost = postsRepo.save(post);
 
-            String uploadDir = "./postUploads/" + savedPost.getUser().getId();
-            Path path = Paths.get(uploadDir);
-
-            if (!Files.exists(path)) {
-                Files.createDirectories(path);
+            try {
+                File uploadedFile = new File(fileName);
+                Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
+                String url = uploadResult.get("url").toString();
+                post.setImagePath(url);
+                return url;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-//            String uploadDirOldFile = "./postUploads/" + savedPost.getUser().getId() + File.separator + oldImage;
-//            FileUploadHelper.deleteFile(uploadDirOldFile);
-
-            try (InputStream inputStream = file.getInputStream()) {
-                Path filePath = path.resolve(fileName);
-                System.out.println(filePath.toFile().getAbsolutePath());
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new IOException("Could not save  uploaded file: " + fileName);
-            }
+//
+//            String uploadDir = "./postUploads/" + savedPost.getUser().getId();
+//            Path path = Paths.get(uploadDir);
+//
+//            if (!Files.exists(path)) {
+//                Files.createDirectories(path);
+//            }
+////            String uploadDirOldFile = "./postUploads/" + savedPost.getUser().getId() + File.separator + oldImage;
+////            FileUploadHelper.deleteFile(uploadDirOldFile);
+//
+//            try (InputStream inputStream = file.getInputStream()) {
+//                Path filePath = path.resolve(fileName);
+//                System.out.println(filePath.toFile().getAbsolutePath());
+//                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+//            } catch (IOException e) {
+//                throw new IOException("Could not save  uploaded file: " + fileName);
+//            }
 
         } else {
             if (post.getImage().isEmpty()) {
                 post.setImage(null);
                 postsRepo.save(post);
             }
+            return "Image exists";
         }
     }
 
