@@ -43,6 +43,8 @@ public class User extends BaseIdModel {
 
     private String profilePic;
 
+    private String picPath;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -119,11 +121,11 @@ public class User extends BaseIdModel {
         this.roles = roles;
     }
 
-    @Transient
-    public String getPicImagePath() {
+    public String getPicPath() {
+        return picPath;
+    }
 
-        if (profilePic == null || id == null) return null;
-
-        return "/user_profilePics/" + id + "/" + profilePic;
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
     }
 }

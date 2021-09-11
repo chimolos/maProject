@@ -23,7 +23,7 @@ public class Post extends BaseIdModel {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Transient
+
     private String imagePath;
 
     private String image;

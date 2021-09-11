@@ -35,10 +35,9 @@ public class UserProfileController {
     @PutMapping("/update")
     public String updateProfile(ProfileRequest request, @RequestParam("profilePic")MultipartFile file) throws IOException {
 
-        userProfileService.updateProfile(request, file);
+        String url = userProfileService.updateProfile(request, file);
 
-
-        return "Profile successfully updated";
+        return "Profile successfully updated: " + url;
     }
 
 }

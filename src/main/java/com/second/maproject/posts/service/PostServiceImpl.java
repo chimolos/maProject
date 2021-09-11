@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -80,27 +81,26 @@ public class PostServiceImpl implements PostService{
 //            String oldImage = post.getImage();
             post.setImage(fileName);
 
-            Post savedPost = postsRepo.save(post);
-
             try {
-                File uploadedFile = new File(fileName);
-                Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
+                File uploadedFile = convertMultiPartToFile(file);
+                Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.asMap("use_filename", true, "folder", "postUploads" + "/" + post.getUser().getId() ));
                 String url = uploadResult.get("url").toString();
                 post.setImagePath(url);
+                postsRepo.save(post);
                 return url;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-//
+////
 //            String uploadDir = "./postUploads/" + savedPost.getUser().getId();
 //            Path path = Paths.get(uploadDir);
 //
 //            if (!Files.exists(path)) {
 //                Files.createDirectories(path);
 //            }
-////            String uploadDirOldFile = "./postUploads/" + savedPost.getUser().getId() + File.separator + oldImage;
-////            FileUploadHelper.deleteFile(uploadDirOldFile);
-//
+//            String uploadDirOldFile = "./postUploads/" + savedPost.getUser().getId() + File.separator + oldImage;
+//            FileUploadHelper.deleteFile(uploadDirOldFile);
+
 //            try (InputStream inputStream = file.getInputStream()) {
 //                Path filePath = path.resolve(fileName);
 //                System.out.println(filePath.toFile().getAbsolutePath());
@@ -110,12 +110,18 @@ public class PostServiceImpl implements PostService{
 //            }
 
         } else {
-            if (post.getImage().isEmpty()) {
                 post.setImage(null);
                 postsRepo.save(post);
-            }
+
             return "Image exists";
         }
+    }
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
 
     @Override

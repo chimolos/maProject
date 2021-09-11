@@ -1,6 +1,7 @@
 package com.second.maproject;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,12 +28,11 @@ public class MaProjectApplication {
 
     @Bean
     public Cloudinary cloudinaryConfig() {
-        Cloudinary cloudinary;
-        Map config = new HashMap();
-        config.put("cloud_name", cloudName);
-        config.put("api_key", apiKey);
-        config.put("api_secret", apiSecret);
-        cloudinary = new Cloudinary(config);
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", cloudName,
+                "api_key", apiKey,
+                "api_secret", apiSecret,
+                "secure", true));
         return cloudinary;
     }
 

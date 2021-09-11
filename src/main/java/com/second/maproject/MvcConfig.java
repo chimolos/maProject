@@ -16,21 +16,27 @@ import java.util.Arrays;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        Path imageUploadDir = Paths.get("./user_profilePics");
-        String imageUploadPath = imageUploadDir.toFile().getAbsolutePath();
-
-        Path postUploadDir = Paths.get("./postUploads");
-        String postUploadPath = postUploadDir.toFile().getAbsolutePath();
-
-        registry.addResourceHandler("/user_profilePics/**").addResourceLocations("file:/" + imageUploadPath + "/");
-        registry.addResourceHandler("/postUploads/**").addResourceLocations("file:/" + postUploadPath + "/");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        Path imageUploadDir = Paths.get("./user_profilePics");
+//        String imageUploadPath = imageUploadDir.toFile().getAbsolutePath();
+//
+//        Path postUploadDir = Paths.get("./postUploads");
+//        String postUploadPath = postUploadDir.toFile().getAbsolutePath();
+//
+//        registry.addResourceHandler("/user_profilePics/**").addResourceLocations("file:/" + imageUploadPath + "/");
+//        registry.addResourceHandler("/postUploads/**").addResourceLocations("file:/" + postUploadPath + "/");
+//    }
 
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+//        registry.addMapping("/**")
+//        .allowedOrigins("*")
+//		.allowedMethods("PUT", "DELETE", "POST", "GET", "DELETE")
+//			.allowedHeaders("*")
+//		.exposedHeaders("token");
+////		.allowCredentials(false).maxAge(3600);
+//}
 //    }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
