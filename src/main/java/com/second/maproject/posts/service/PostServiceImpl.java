@@ -74,6 +74,7 @@ public class PostServiceImpl implements PostService{
         }
         post.setAreaOfReport(categories);
 
+        if(file != null){
         if (!file.isEmpty()) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             if (fileName.contains("..")) {
@@ -115,6 +116,9 @@ public class PostServiceImpl implements PostService{
                 postsRepo.save(post);
 
             return "Image exists";
+        }
+        } else {
+            return "No Image";
         }
     }
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
