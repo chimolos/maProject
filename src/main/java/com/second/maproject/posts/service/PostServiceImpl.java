@@ -46,10 +46,11 @@ public class PostServiceImpl implements PostService{
     CategoryService categoryService;
 
     @Override
-    public String createPost(@RequestBody PostRequest request, MultipartFile file) throws IOException {
+    public String createPost(@RequestBody PostRequest request) throws IOException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         User user = userRepo.findByUsername(username);
+        MultipartFile file = request.getFile();
 
         Post post = new Post();
         post.setUser(user);

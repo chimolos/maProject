@@ -5,6 +5,7 @@ import com.second.maproject.users.models.Role;
 import com.second.maproject.users.models.User;
 import com.second.maproject.users.repository.RoleRepository;
 import com.second.maproject.users.repository.UserRepository;
+import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,9 @@ public class SignUpService {
 //        profile.setUser(user);
 //        userProRepo.save(profile);
 
-        return "User registered successfully!";
+        JSONObject response = new JSONObject();
+        response.put("msg", "User registered successfully");
+        return response.toString();
     }
 
     private String getSiteURL(HttpServletRequest request) {

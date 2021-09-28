@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,10 +20,13 @@ public class PostController {
     PostService postService;
 
     @PostMapping("/user/post/create")
-    public String createPost(PostRequest request, @RequestParam("image") MultipartFile file) throws IOException {
+    public String createPost(@RequestBody @Valid PostRequest request) throws IOException {
 
-        String url = postService.createPost(request, file);
-
+        String url = postService.createPost(request);
+//    public String createPost(PostRequest request, @RequestParam("image") MultipartFile file) throws IOException {
+//
+//        String url = postService.createPost(request, file);
+//
         return "Post created successfully: File path: " + url;
     }
 
