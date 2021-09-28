@@ -22,7 +22,6 @@ public class PostController {
 
     @PostMapping(value = "/user/post/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String createPost(@ModelAttribute PostRequest request) throws IOException {
-        System.out.println("CREATING POST ");
         String url = postService.createPost(request);
 //    public String createPost(PostRequest request, @RequestParam("image") MultipartFile file) throws IOException {
 //

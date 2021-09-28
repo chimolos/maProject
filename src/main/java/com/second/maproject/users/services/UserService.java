@@ -32,7 +32,7 @@ public class UserService {
 
 //    public void addRoleToUser(String username, String roleName) {
 //        User user = userRepo.findByUsername(username);
-//        Role role = roleRepo.findByName(roleName).get();
+//        Role role = roleRepo.findByNameIgnoreCase(roleName).get();
 //        user.getRoles().add(role);
 //    }
 

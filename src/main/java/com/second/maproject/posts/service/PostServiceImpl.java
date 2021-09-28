@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService{
             throw new IllegalStateException("Error: Category does not exist!");
         } else {
             cats.forEach(cat -> {
-                Category category = categoryRepo.findByName(cat)
+                Category category = categoryRepo.findByNameIgnoreCase(cat)
                         .orElseThrow(() -> new RuntimeException("Error: Category is not found."));
 
 //                cat.matches(String.valueOf(category));
@@ -74,9 +74,6 @@ public class PostServiceImpl implements PostService{
         }
         post.setAreaOfReport(categories);
 
-
-        System.out.println("ÏNSIDE PSImpl");
-        if(file != null){
         if (!file.isEmpty()) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             if (fileName.contains("..")) {
@@ -118,9 +115,6 @@ public class PostServiceImpl implements PostService{
                 postsRepo.save(post);
 
             return "Image exists";
-        }
-        } else {
-            return "No Image";
         }
     }
     private File convertMultiPartToFile(MultipartFile file) throws IOException {

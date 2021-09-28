@@ -47,7 +47,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             throw new IllegalStateException("Error: Category does not exist!");
         } else {
             cats.forEach(cat -> {
-                Category category = categoryRepo.findByName(cat)
+                Category category = categoryRepo.findByNameIgnoreCase(cat)
                         .orElseThrow(() -> new RuntimeException("Error: Category is not found."));
 
 //                cat.matches(String.valueOf(category));
