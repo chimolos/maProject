@@ -4,6 +4,7 @@ import com.second.maproject.posts.models.Post;
 import com.second.maproject.posts.request.PostRequest;
 import com.second.maproject.posts.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,15 +20,8 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @PostMapping(value = "/user/post/create2")
-    public String createPos2t() throws IOException {
-
-        //String url = postService.createPost(request);
-        return "working";
-    }
-
-    @PostMapping(value = "/user/post/create", consumes = "multipart/form-data")
-    public String createPost(@RequestBody @Valid PostRequest request) throws IOException {
+    @PostMapping(value = "/user/post/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String createPost(@ModelAttribute PostRequest request) throws IOException {
 
         String url = postService.createPost(request);
 //    public String createPost(PostRequest request, @RequestParam("image") MultipartFile file) throws IOException {
