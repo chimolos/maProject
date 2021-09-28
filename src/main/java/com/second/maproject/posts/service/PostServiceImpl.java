@@ -74,6 +74,8 @@ public class PostServiceImpl implements PostService{
         }
         post.setAreaOfReport(categories);
 
+
+        System.out.println("ÏNSIDE PSImpl");
         if(file != null){
         if (!file.isEmpty()) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
