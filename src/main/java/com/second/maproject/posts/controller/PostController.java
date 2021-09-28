@@ -19,7 +19,14 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @PostMapping("/user/post/create")
+    @PostMapping(value = "/user/post/create2")
+    public String createPos2t() throws IOException {
+
+        //String url = postService.createPost(request);
+        return "working";
+    }
+
+    @PostMapping(value = "/user/post/create", consumes = "multipart/form-data")
     public String createPost(@RequestBody @Valid PostRequest request) throws IOException {
 
         String url = postService.createPost(request);
