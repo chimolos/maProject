@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService{
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         User user = userRepo.findByUsername(username);
-        //MultipartFile file = request.getFile();
+        MultipartFile file = request.getFile();
 
         Post post = new Post();
         post.setUser(user);
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService{
         }
         post.setAreaOfReport(categories);
 
-       /* if (!file.isEmpty()) {
+        if (!file.isEmpty()) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             if (fileName.contains("..")) {
                 System.out.println("not a valid file");
@@ -84,7 +84,7 @@ public class PostServiceImpl implements PostService{
 
             try {
                 File uploadedFile = convertMultiPartToFile(file);
-                Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.asMap("use_filename", true, "folder", "postUploads" + "/" + post.getUser().getId()));
+                Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.asMap("use_filename", true, "folder", "postUploads" + "/" + post.getUser().getId() ));
                 String url = uploadResult.get("url").toString();
                 post.setImagePath(url);
                 postsRepo.save(post);
@@ -109,8 +109,13 @@ public class PostServiceImpl implements PostService{
 //            } catch (IOException e) {
 //                throw new IOException("Could not save  uploaded file: " + fileName);
 //            }
-        }*/
-      return "dummy";
+
+        } else {
+                post.setImage(null);
+                postsRepo.save(post);
+
+            return "Image exists";
+        }
     }
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());

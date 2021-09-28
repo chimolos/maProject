@@ -18,5 +18,6 @@ public class PostRequest {
     @NotNull
     private Set<String> areaOfReport;
 
-   // private MultipartFile file;
+    @NotNull
+    private MultipartFile file;
 }
