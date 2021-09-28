@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService{
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         User user = userRepo.findByUsername(username);
-        MultipartFile file = request.getFile();
+        MultipartFile file = request.getImage();
 
         Post post = new Post();
         post.setUser(user);
