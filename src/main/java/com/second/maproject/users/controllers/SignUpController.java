@@ -23,8 +23,8 @@ public class SignUpController {
     EmailVerificationService emailVerificationService;
 
     @PostMapping("/signup")
-    public String registerUser(@Valid @RequestBody SignUpRequest signUpRequest, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
-        return signUpService.registerUser(signUpRequest, request);
+    public String registerUser(@Valid @RequestBody SignUpRequest signUpRequest) throws MessagingException, UnsupportedEncodingException {
+        return signUpService.registerUser(signUpRequest);
     }
 
     @GetMapping("/verify")

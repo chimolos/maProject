@@ -21,13 +21,13 @@ public class UserService {
     private final RoleRepository roleRepo;
     private final EmailVerificationService emailVerificationService;
 
-    public void saveUser(User user, String appURL) throws MessagingException, UnsupportedEncodingException {
+    public void saveUser(User user) throws MessagingException, UnsupportedEncodingException {
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);
         user.setEnabled(false);
 
         userRepo.save(user);
-        emailVerificationService.sendVerificationEmail(user, appURL);
+        emailVerificationService.sendVerificationEmail(user);
     }
 
 //    public void addRoleToUser(String username, String roleName) {

@@ -21,7 +21,7 @@ public class EmailVerificationService {
     private final UserRepository userRepo;
     private final JavaMailSender mailSender;
 
-    protected void sendVerificationEmail(User user, String appURL) throws MessagingException, UnsupportedEncodingException {
+    protected void sendVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException {
 
         String toAddress = user.getEmail();
         String fromAddress= "i.reportp@gmail.com";//the mail of the sender
@@ -41,7 +41,7 @@ public class EmailVerificationService {
         helper.setSubject(subject);
 
         content = content.replace("[[username]]", user.getUsername());
-        String verifyURL = appURL + "/api/all/verify?code=" + user.getVerificationCode();
+        String verifyURL = "http://localhost:3000/login/" + user.getVerificationCode();
 
         content = content.replace("[[URL]]", verifyURL);
 

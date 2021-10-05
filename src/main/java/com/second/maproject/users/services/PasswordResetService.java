@@ -46,13 +46,13 @@ public class PasswordResetService {
         }
         String token = UUID.randomUUID().toString();
         createPasswordResetToken(user, token);
-        sendPasswordResetEmail(getAppURL(request), token, user);
+        sendPasswordResetEmail(token, user);
 
         return "Click link provided in email to reset password";
 
     }
 
-    private void sendPasswordResetEmail(String appURL, String token, User user) throws MessagingException, UnsupportedEncodingException {
+    private void sendPasswordResetEmail(String token, User user) throws MessagingException, UnsupportedEncodingException {
 
         String toAddress = user.getEmail();
         String fromAddress= "i.reportp@gmail.com";//the mail of the sender
@@ -74,7 +74,7 @@ public class PasswordResetService {
         helper.setSubject(subject);
 
         content = content.replace("[[username]]", user.getUsername());
-        String verifyURL = appURL + "/api/all/resetPassword?token=" + token;
+        String verifyURL = "http://localhost:3000/reset-password/"+ token;
 
         content = content.replace("[[URL]]", verifyURL);
 
@@ -83,10 +83,10 @@ public class PasswordResetService {
         mailSender.send(email);
     }
 
-    private String getAppURL(HttpServletRequest request) {
-        String siteURL = request.getRequestURL().toString();
-        return siteURL.replace(request.getServletPath(), "");
-    }
+//    private String getAppURL(HttpServletRequest request) {
+//        String siteURL = request.getRequestURL().toString();
+//        return siteURL.replace(request.getServletPath(), "");
+//    }
 
     public String resetPassword(String token, String password) {
         PasswordResetToken passToken = tokenRepository.findByResetToken(token);

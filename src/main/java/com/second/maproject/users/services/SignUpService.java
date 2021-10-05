@@ -33,7 +33,7 @@ public class SignUpService {
     @Autowired
     UserService userService;
 
-    public String registerUser(@RequestBody SignUpRequest signUpRequest, HttpServletRequest request ) throws MessagingException, UnsupportedEncodingException {
+    public String registerUser(@RequestBody SignUpRequest signUpRequest) throws MessagingException, UnsupportedEncodingException {
         if (userRepo.existsByUsername(signUpRequest.getUsername())) {
             throw new IllegalStateException("Error: Username is already taken!");
         }
@@ -67,7 +67,7 @@ public class SignUpService {
             });
         }
         user.setRoles(roles);
-        userService.saveUser(user, getSiteURL(request));
+        userService.saveUser(user);
 
 //        profile.setUser(user);
 //        userProRepo.save(profile);
@@ -77,8 +77,8 @@ public class SignUpService {
         return response.toString();
     }
 
-    private String getSiteURL(HttpServletRequest request) {
-        String siteURL = request.getRequestURL().toString();
-        return siteURL.replace(request.getServletPath(), "");
-    }
+//    private String getSiteURL(HttpServletRequest request) {
+//        String siteURL = request.getRequestURL().toString();
+//        return siteURL.replace(request.getServletPath(), "");
+//    }
 }
