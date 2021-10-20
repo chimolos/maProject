@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "maProject.app.jwtSecret",
+      "type": "java.lang.String",
+      "description": "Description for maProject.app.jwtSecret."
+    },
+    {
+      "name": "maProject.app.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for maProject.app.jwtExpirationMs."
+    },
+    {
+      "name": "maProject.app.jwtRefreshExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for maProject.app.jwtRefreshExpirationMs."
+    }
+  ] }
