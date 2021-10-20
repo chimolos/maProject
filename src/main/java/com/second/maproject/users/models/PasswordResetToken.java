@@ -15,7 +15,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class PasswordResetToken extends BaseIdModel {
 
-    private static final int EXPIRATION = 5;
+    private static final int EXPIRATION = 20;
 
     private String resetToken;
 

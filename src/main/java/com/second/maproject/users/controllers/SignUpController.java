@@ -3,6 +3,7 @@ package com.second.maproject.users.controllers;
 import com.second.maproject.users.requests.SignUpRequest;
 import com.second.maproject.users.services.EmailVerificationService;
 import com.second.maproject.users.services.SignUpService;
+import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +31,13 @@ public class SignUpController {
     @GetMapping("/verify")
     public String verifyUser(@Param("code") String code) {
         if (emailVerificationService.verify(code)) {
-            return "verification successful";
+            JSONObject response = new JSONObject();
+            response.put("msg", "verification successful");
+            return response.toString();
         } else {
-            return "verification failed";
+            JSONObject response = new JSONObject();
+            response.put("msg", "verification failed");
+            return response.toString();
         }
 
     }

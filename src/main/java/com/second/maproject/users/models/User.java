@@ -1,7 +1,11 @@
 package com.second.maproject.users.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.second.maproject.BaseIdModel;
 import com.second.maproject.category.Category;
+import com.second.maproject.posts.models.Post;
+import com.second.maproject.posts.models.PostComment;
+import com.second.maproject.thoughts_opinion.Thoughts_Opinion;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
@@ -40,6 +44,14 @@ public class User extends BaseIdModel {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Collection<Category> area_of_interest = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
+    private List<Post> posts = new ArrayList();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
+    private List<Thoughts_Opinion> thoughts = new ArrayList();
 
     private String profilePic;
 
@@ -127,5 +139,21 @@ public class User extends BaseIdModel {
 
     public void setPicPath(String picPath) {
         this.picPath = picPath;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Thoughts_Opinion> getThoughts() {
+        return thoughts;
+    }
+
+    public void setThoughts(List<Thoughts_Opinion> thoughts) {
+        this.thoughts = thoughts;
     }
 }

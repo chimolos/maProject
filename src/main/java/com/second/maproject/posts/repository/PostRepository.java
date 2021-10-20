@@ -14,7 +14,7 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByTitle(String title);
     List<Post> findByAreaOfReport(Category category);
-//    Post findBy
     Post findByUser(User user);
+    void deleteByUserAndId(User users, Long id);
 
 }

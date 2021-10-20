@@ -6,6 +6,7 @@ import com.second.maproject.users.models.User;
 import com.second.maproject.users.repository.PasswordResetTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -48,8 +49,9 @@ public class PasswordResetService {
         createPasswordResetToken(user, token);
         sendPasswordResetEmail(token, user);
 
-        return "Click link provided in email to reset password";
-
+        JSONObject response = new JSONObject();
+        response.put("msg", "Click link provided in email to reset password");
+        return response.toString();
     }
 
     private void sendPasswordResetEmail(String token, User user) throws MessagingException, UnsupportedEncodingException {
@@ -61,7 +63,7 @@ public class PasswordResetService {
         String content = "Dear [[username]], <br>"
                 + "Please click the link below to reset your password: <br>"
                 + "[[URL]] <br>"
-                + "This link expires in 5 minutes <br>"
+                + "This link expires in 20 minutes <br>"
                 + "Ignore this email if you have not made the request <br>"
                 + "Thank you, <br>"
                 + "I-Report";
@@ -92,11 +94,15 @@ public class PasswordResetService {
         PasswordResetToken passToken = tokenRepository.findByResetToken(token);
         // validate token
         if (passToken == null) {
-            return "Invalid token.";
+            JSONObject response = new JSONObject();
+            response.put("msg", "Invalid token.");
+            return response.toString();
         }
         if (isTokenExpired(passToken)) {
             tokenRepository.delete(passToken);
-            return "Token invalid and expired";
+            JSONObject response = new JSONObject();
+            response.put("msg", "Token invalid and expired");
+            return response.toString();
         }
         PasswordResetToken resetToken = tokenRepository.findByResetToken(token);
         User user = resetToken.getUser();
@@ -106,7 +112,9 @@ public class PasswordResetService {
 
         tokenRepository.delete(resetToken);
 
-        return "Your password successfully updated";
+        JSONObject response = new JSONObject();
+        response.put("msg", "Your password successfully updated");
+        return response.toString();
     }
 
     private boolean isTokenExpired(PasswordResetToken passToken) {

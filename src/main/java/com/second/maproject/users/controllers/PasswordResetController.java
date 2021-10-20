@@ -5,6 +5,7 @@ import com.second.maproject.users.models.User;
 import com.second.maproject.users.requests.UpdatePasswordRequest;
 import com.second.maproject.users.services.PasswordResetService;
 import lombok.RequiredArgsConstructor;
+import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -53,6 +54,8 @@ public class PasswordResetController {
         }
         user.setPassword(encoder.encode(passwordRequest.getNewPassword()));
         userRepo.save(user);
-        return "Password updated successfully";
+        JSONObject response = new JSONObject();
+        response.put("msg", "Password updated successfully");
+        return response.toString();
     }
 }

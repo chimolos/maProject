@@ -1,4 +1,4 @@
-package com.second.maproject.posts.repository;
+package com.second.maproject.thoughts_opinion;
 
 import com.second.maproject.posts.models.Post;
 import com.second.maproject.posts.models.PostComment;
@@ -11,8 +11,6 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface PostCommentRepository extends JpaRepository<PostComment, Long> {
-    List<PostComment> findAllByPost(Post post);
-    int countByPost(Post post);
+public interface ThoughtsRepository extends JpaRepository<Thoughts_Opinion, Long> {
     void deleteByUserAndId(User users, Long id);
 }

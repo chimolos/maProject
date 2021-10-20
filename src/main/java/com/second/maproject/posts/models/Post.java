@@ -1,5 +1,6 @@
 package com.second.maproject.posts.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.second.maproject.BaseIdModel;
 import com.second.maproject.category.Category;
 import com.second.maproject.users.models.User;
@@ -29,10 +30,13 @@ public class Post extends BaseIdModel {
     private String image;
 
     @ManyToOne
-//    @JoinColumn(name = "userid", nullable = false, updatable = false)
     private User user;
 
     private Date publishedDate;
+
+    private int numberOfLikes;
+
+    private int numberOfDislikes;
 
     private int numberOfComments;
 
@@ -42,16 +46,8 @@ public class Post extends BaseIdModel {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> areaOfReport = new HashSet<>();
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-////    @JoinColumn(name = "comment_id")
-//    private List<PostComment> comments = new ArrayList();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("post")
+    private List<PostComment> comments = new ArrayList();
 
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
 }

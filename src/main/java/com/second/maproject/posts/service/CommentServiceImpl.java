@@ -44,10 +44,25 @@ public class CommentServiceImpl implements CommentService{
 //        post.addComment(postComment);
 
         commentRepo.save(postComment);
-        int number = (int) commentRepo.countByPost(post);
+        int number = commentRepo.countByPost(post);
         post.setNumberOfComments(number);
         postRepo.save(post);
     }
+
+//    @Override
+//    public void editComment(Long commentId, String comment) {
+//        PostComment editComment = getCommentById(commentId);
+//
+//        editComment.setComment(comment);
+//        commentRepo.save(editComment);
+//    }
+
+//    @Override
+//    public PostComment getCommentById(Long commentId) {
+//        PostComment comment = commentRepo.findById(commentId)
+//                .orElseThrow(() -> new IllegalCallerException("Post with id does not exist"));
+//        return comment;
+//    }
 
     @Override
     public List<PostComment> getCommentsPerPost(Long postId) {

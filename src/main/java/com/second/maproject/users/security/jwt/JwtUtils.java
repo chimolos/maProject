@@ -39,13 +39,13 @@ public class JwtUtils {
                 .sign(algorithm);
 
         response.setHeader("access_token", access_token);
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT decodedJWT = verifier.verify(access_token);
-        Date dateIssued = decodedJWT.getIssuedAt();
-        Date dateExpires = decodedJWT.getExpiresAt();
+//        JWTVerifier verifier = JWT.require(algorithm).build();
+//        DecodedJWT decodedJWT = verifier.verify(access_token);
+//        Date dateIssued = decodedJWT.getIssuedAt();
+//        Date dateExpires = decodedJWT.getExpiresAt();
 
-        System.out.println("Access_token issued: " + dateIssued);
-        System.out.println("Access_token expires: " + dateExpires);
+//        System.out.println("Access_token issued: " + dateIssued);
+//        System.out.println("Access_token expires: " + dateExpires);
 
         return access_token;
     }
@@ -60,11 +60,11 @@ public class JwtUtils {
                 .sign(algorithms);
         response.setHeader("refresh_token", refresh_token);
 
-        JWTVerifier verifier = JWT.require(algorithms).build();
-        DecodedJWT decodedJWT = verifier.verify(refresh_token);
-        Date dateExpires = decodedJWT.getExpiresAt();
-
-        System.out.println("Refresh_token expires: " + dateExpires);
+//        JWTVerifier verifier = JWT.require(algorithms).build();
+//        DecodedJWT decodedJWT = verifier.verify(refresh_token);
+//        Date dateExpires = decodedJWT.getExpiresAt();
+//
+//        System.out.println("Refresh_token expires: " + dateExpires);
 
         return refresh_token;
 

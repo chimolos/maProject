@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,7 +72,7 @@ public class SignUpService {
 //        userProRepo.save(profile);
 
         JSONObject response = new JSONObject();
-        response.put("msg", "User registered successfully");
+        response.put("msg", "User registered successfully, check email to complete verkfication");
         return response.toString();
     }
 

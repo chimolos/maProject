@@ -4,6 +4,7 @@ import com.second.maproject.users.requests.ProfileRequest;
 import com.second.maproject.users.services.UserProfileService;
 import com.second.maproject.users.models.User;
 import com.second.maproject.users.repository.UserRepository;
+import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,8 +37,9 @@ public class UserProfileController {
     public String updateProfile(ProfileRequest request, @RequestParam("profilePic")MultipartFile file) throws IOException {
 
         String url = userProfileService.updateProfile(request, file);
-
-        return "Profile successfully updated: " + url;
+        JSONObject response = new JSONObject();
+        response.put("msg", "Profile successfully updated: " + url);
+        return response.toString();
     }
 
 }

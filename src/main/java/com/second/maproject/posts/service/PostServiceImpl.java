@@ -114,7 +114,7 @@ public class PostServiceImpl implements PostService{
                 post.setImage(null);
                 postsRepo.save(post);
 
-            return "Image exists";
+            return "No image";
         }
     }
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -126,6 +126,58 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public String editPost(Long id, PostRequest request) {
+        Post editPost = getPostById(id);
+
+        MultipartFile file = request.getImage();
+
+        editPost.setTitle(request.getTitle());
+        editPost.setDescription(request.getDescription());
+        editPost.setPublishedDate(new Date());
+
+        Set<String> cats = request.getAreaOfReport();
+        Set<Category> categories = new HashSet<>();
+
+        if (cats == null) {
+            throw new IllegalStateException("Error: Category does not exist!");
+        } else {
+            cats.forEach(cat -> {
+                Category category = categoryRepo.findByNameIgnoreCase(cat)
+                        .orElseThrow(() -> new RuntimeException("Error: Category is not found."));
+
+                categories.add(category);
+            });
+        }
+        editPost.setAreaOfReport(categories);
+
+        if (!file.isEmpty()) {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            if (fileName.contains("..")) {
+                System.out.println("not a valid file");
+            }
+            editPost.setImage(fileName);
+
+            try {
+                File uploadedFile = convertMultiPartToFile(file);
+                Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.asMap("use_filename", true, "folder", "postUploads" + "/" + editPost.getUser().getId() ));
+                String url = uploadResult.get("url").toString();
+                editPost.setImagePath(url);
+                postsRepo.save(editPost);
+                return url;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        } else {
+            editPost.setImage(null);
+            editPost.setImagePath(null);
+            postsRepo.save(editPost);
+            return "No image";
+
+        }
+    }
+
+    @Override
     public List<Post> getAllPost() {
         return postsRepo.findAll();
     }
@@ -133,7 +185,7 @@ public class PostServiceImpl implements PostService{
     @Override
     public Post getPostById(Long id) {
         Post post = postsRepo.findById(id)
-                .orElseThrow(() -> new IllegalCallerException("Category with id does not exist"));
+                .orElseThrow(() -> new IllegalCallerException("Post with id does not exist"));
         return post;
     }
 
