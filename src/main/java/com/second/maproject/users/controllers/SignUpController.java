@@ -29,7 +29,7 @@ public class SignUpController {
     }
 
     @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code) {
+    public String verifyUser(@RequestParam("code") String code) {
         if (emailVerificationService.verify(code)) {
             JSONObject response = new JSONObject();
             response.put("msg", "verification successful");
