@@ -20,7 +20,7 @@ public class Thoughts_Opinion extends BaseIdModel {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User user;
 
     private int numberOfLikes;
