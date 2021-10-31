@@ -76,7 +76,7 @@ public class PasswordResetService {
         helper.setSubject(subject);
 
         content = content.replace("[[username]]", user.getUsername());
-        String verifyURL = "http://localhost:3000/reset-password/"+ token;
+        String verifyURL ="https://ireport-web.herokuapp.com/reset-password/"+ token;
 
         content = content.replace("[[URL]]", verifyURL);
 
