@@ -24,7 +24,7 @@ public class EmailVerificationService {
     protected void sendVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException {
 
         String toAddress = user.getEmail();
-        String fromAddress= "ireportpro2021@gmail.com";//the mail of the sender
+        String fromAddress= "i.reportp@gmail.com";//the mail of the sender
         String senderName = "I-Report";//company name
 //        String subject = "Please verify your account";
         String content = "Dear [[username]], <br>"
