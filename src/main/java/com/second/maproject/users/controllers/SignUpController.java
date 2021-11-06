@@ -36,7 +36,7 @@ public class SignUpController {
             return response.toString();
         } else {
             JSONObject response = new JSONObject();
-            response.put("msg", "verification failed");
+            response.put("msg", "verification failed: user is already verified/does not exist");
             return response.toString();
         }
 

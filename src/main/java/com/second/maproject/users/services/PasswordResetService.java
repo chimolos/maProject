@@ -57,13 +57,13 @@ public class PasswordResetService {
     private void sendPasswordResetEmail(String token, User user) throws MessagingException, UnsupportedEncodingException {
 
         String toAddress = user.getEmail();
-        String fromAddress= "i.reportp@gmail.com";//the mail of the sender
+        String fromAddress= "ireportpro2021@gmail.com";//the mail of the sender
         String senderName = "I-Report";//company name
-        String subject = "Here is the link to reset your password";
+//        String subject = "Here is the link to reset your password";
         String content = "Dear [[username]], <br>"
-                + "Please click the link below to reset your password: <br>"
-                + "[[URL]] <br>"
-                + "This link expires in 20 minutes <br>"
+                + "To reset your password the link is provided below: <br>"
+                +  "<a href = '[[URL]]'> [[URL]] </a> <br>"
+                + "It expires in 20 minutes <br>"
                 + "Ignore this email if you have not made the request <br>"
                 + "Thank you, <br>"
                 + "I-Report";
@@ -73,7 +73,7 @@ public class PasswordResetService {
 
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
-        helper.setSubject(subject);
+//        helper.setSubject(subject);
 
         content = content.replace("[[username]]", user.getUsername());
         String verifyURL ="https://ireport-web.herokuapp.com/reset-password/"+ token;
