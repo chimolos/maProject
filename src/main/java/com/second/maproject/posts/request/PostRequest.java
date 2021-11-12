@@ -1,6 +1,7 @@
 package com.second.maproject.posts.request;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
@@ -18,5 +19,6 @@ public class PostRequest {
     @NotNull
     private Set<String> areaOfReport;
 
+    @Nullable
     private MultipartFile image;
 }
