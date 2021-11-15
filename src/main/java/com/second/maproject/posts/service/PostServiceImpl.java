@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService{
         }
         post.setAreaOfReport(categories);
 
-        if (!file.isEmpty()) {
+        if (file != null) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             if (fileName.contains("..")) {
                 System.out.println("not a valid file");
